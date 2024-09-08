@@ -1,6 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -13,6 +18,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,6 +39,19 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    kotlin {
+        sourceSets.main {
+            kotlin.srcDir("build/generated/ksp/main/kotlin")
+        }
+    }
+    buildFeatures {
+        viewBinding = true
+    }
+    packaging {
+        resources {
+            excludes += "META-INF/gradle/incremental.annotation.processors"
+        }
+    }
 }
 
 dependencies {
@@ -45,4 +64,47 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.fragment)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+
+    // hilt
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.hilt.android)
+    annotationProcessor (libs.hilt.android.compiler)
+    implementation (libs.hilt.android.compose)
+    /*implementation(libs.dagger.hilt)
+    implementation(libs.dagger.compiler)
+    implementation(libs.dagger.hilt.compiler)*/
+    //ksp(libs.dagger.hilt.compiler)
+    //ksp(project(":test-processor"))
+    //ksp(libs.dagger.compiler)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.material.material3)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.viewmodelKtx)
+    //implementation "com.google.code.gson:gson:2.10.1"
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    //OkHttp
+    implementation(libs.okHttp)
+    //Gson
+    implementation(libs.gson)
+    //Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    // Glide
+    implementation(libs.glide)
+    kapt(libs.glide.compiler)
+    // Swipe Refresh Layout
+    implementation(libs.swiperefreshlayout)
+    // Multidex
+    implementation(libs.multidex)
+    //ksp
+    implementation(libs.ksp)
+    implementation(libs.ksp.api)
+    implementation(libs.ksp.gradlePlugin)
 }
