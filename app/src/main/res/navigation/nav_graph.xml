@@ -9,5 +9,17 @@
         android:id="@+id/wordListFragment"
         android:name="com.eniskaner.eyojinteractivewordgames.translationpage.presentation.view.WordListFragment"
         android:label="fragment_word_list"
-        tools:layout="@layout/fragment_word_list" />
+        tools:layout="@layout/fragment_word_list" >
+        <action
+            android:id="@+id/action_wordListFragment_to_wordDetailFragment"
+            app:destination="@id/wordDetailFragment" />
+        <argument
+            android:name="uiWordCard"
+            app:argType="com.eniskaner.eyojinteractivewordgames.translationpage.data.model.UIWordCard" />
+    </fragment>
+    <fragment
+        android:id="@+id/wordDetailFragment"
+        android:name="com.eniskaner.eyojinteractivewordgames.translationpage.presentation.view.WordDetailFragment"
+        android:label="fragment_word_detail"
+        tools:layout="@layout/fragment_word_detail" />
 </navigation>
