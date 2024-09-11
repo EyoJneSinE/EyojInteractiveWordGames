@@ -26,6 +26,7 @@ class WordDetailFragment : BaseFragment<FragmentWordDetailBinding>() {
     private lateinit var front_anim: AnimatorSet
     var isFront = true
     var  isDownloaded:Boolean = false
+    var isEnglish: Boolean = true
 
     override fun setBinding(): FragmentWordDetailBinding =
         FragmentWordDetailBinding.inflate(layoutInflater)
@@ -65,6 +66,13 @@ class WordDetailFragment : BaseFragment<FragmentWordDetailBinding>() {
                 back_anim = AnimatorInflater.loadAnimator(requireContext(), R.animator.back_animator) as AnimatorSet
 
                 binding.buttonTranslateEnglishFront.setOnClickListener {
+                    if (isEnglish) {
+                        binding.buttonTranslateEnglishFront.text = "Türkçe Çevirisi"
+                        isEnglish = false
+                    } else {
+                        binding.buttonTranslateEnglishFront.text = "İngilizce Çevirisi"
+                        isEnglish = true
+                    }
                     if (isFront) {
                         front_anim.setTarget(binding.cardWordFront)
                         back_anim.setTarget(binding.cardWordBack)
