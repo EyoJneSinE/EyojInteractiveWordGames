@@ -2,4 +2,38 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="eyoj_primary">#FF415F91</color>
+    <color name="eyoj_on_primary">#FFFFFFFF</color>
+    <color name="eyoj_secondary">#FF565F71</color>
+    <color name="eyoj_on_secondary">#FFFFFFFF</color>
+    <color name="eyoj_tertiary">#FF705575</color>
+    <color name="eyoj_on_tertiary">#FFFFFFFF</color>
+    <color name="eyoj_error">#FFBA1A1A</color>
+    <color name="eyoj_on_error">#FFFFFFFF</color>
+    <color name="eyoj_primary_container">#FFD6E3FF</color>
+    <color name="eyoj_on_primary_container">#FF001B3E</color>
+    <color name="eyoj_secondary_container">#FFDAE2F9</color>
+    <color name="eyoj_on_secondary_container">#FF131C2B</color>
+    <color name="eyoj_tertiary_container">#FFFAD8FD</color>
+    <color name="eyoj_on_tertiary_container">#FF28132E</color>
+    <color name="eyoj_error_container">#FFFFDAD6</color>
+    <color name="eyoj_on_error_container">#FF410002</color>
+    <color name="eyoj_surface_dim">#FFD9D9E0</color>
+    <color name="eyoj_surface">#FFF9F9FF</color>
+    <color name="eyoj_surface_bright">#FFF9F9FF</color>
+    <color name="eyoj_inverse_surface">#FF2E3036</color>
+    <color name="eyoj_inverse_on_surface">#FFF0F0F7</color>
+    <color name="eyoj_inverse_primary">#FFAAC7FF</color>
+    <color name="eyoj_scrim">#FF000000</color>
+    <color name="eyoj_shadow">#FF000000</color>
+    <color name="eyoj_surface_container_lowest">#FFFFFFFF</color>
+    <color name="eyoj_surface_container_low">#FFF3F3FA</color>
+    <color name="eyoj_surface_container_high">#FFE7E8EE</color>
+    <color name="eyoj_surface_container_highest">#FFE2E2E9</color>
+    <color name="eyoj_surface_container">#FFEDEDF4</color>
+    <color name="eyoj_on_surface">#FF191C20</color>
+    <color name="eyoj_on_surface_variant">#FF44474E</color>
+    <color name="eyoj_outline">#FF74777F</color>
+    <color name="eyoj_outline_variant">#FFC4C6D0</color>
+
 </resources>
