@@ -1,9 +1,32 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.EyojInteractiveWordGames" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/eyoj_primary</item>
+        <item name="colorPrimaryVariant">@color/eyoj_primary_container</item>
+        <item name="colorOnPrimary">@color/eyoj_on_primary</item>
+        <item name="colorPrimaryDark">@color/eyoj_on_primary_container</item>
+        <item name="colorAccent">@color/eyoj_secondary</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/eyoj_secondary</item>
+        <item name="colorSecondaryVariant">@color/eyoj_secondary_container</item>
+        <item name="colorOnSecondary">@color/eyoj_on_secondary</item>
+        <item name="statusBarScrim">@color/eyoj_scrim</item>
+        <item name="statusBarBackground">@color/eyoj_inverse_primary</item>
+        <item name="statusBarForeground">@color/eyoj_inverse_primary</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/white_transparent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
-    <style name="Theme.EyojInteractiveWordGames" parent="Base.Theme.EyojInteractiveWordGames" />
+    <style name="Theme.EyojInteractiveWordGames" parent="Base.Theme.EyojInteractiveWordGames">
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 </resources>

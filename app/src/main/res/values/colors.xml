@@ -35,5 +35,6 @@
     <color name="eyoj_on_surface_variant">#FF44474E</color>
     <color name="eyoj_outline">#FF74777F</color>
     <color name="eyoj_outline_variant">#FFC4C6D0</color>
+    <color name="white_transparent">#00FFFFFF</color>
 
 </resources>
