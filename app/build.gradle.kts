@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.navigation.safeargs)
+    alias(libs.plugins.gms.googleServices)
 }
 
 android {
@@ -107,4 +109,5 @@ dependencies {
     implementation(libs.ksp)
     implementation(libs.ksp.api)
     implementation(libs.ksp.gradlePlugin)
+    implementation(libs.mlkit.translate)
 }

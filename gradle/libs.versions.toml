@@ -34,6 +34,22 @@ kotlinPlugin = "1.8.10"
 swiperefreshlayout = "1.1.0"
 multidex = "2.0.1"
 glide = "4.15.1"
+navigation = "2.7.7"
+# Firebase Services
+# https://firebase.google.com/support/release-notes/android
+firebase-analytics = "22.1.0"
+firebase-bom = "33.2.0"
+firebase-config = "22.0.0"
+firebase-crashlytics = "19.0.3"
+firebase-crashlytics-gradle = "3.0.2"
+firebase-messaging = "24.0.1"
+firebase-auth = "23.0.0"
+gms-googleServices = "4.4.2"
+firebase-firestore = "25.0.0"
+firebase-firestore-storage = "21.0.0"
+firebase-ml-natural-language = "22.0.1"
+firebase-ml-natural-language-translate-model = "20.0.9"
+mlkit = "17.0.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -65,6 +81,8 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 androidx-fragment = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx"}
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx"}
+navigation-safeArgs-generator = { module = "androidx.navigation:navigation-safe-args-generator", version.ref = "navigation" }
+navigation-safeArgs-gradlePlugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 # hilt
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
@@ -102,6 +120,21 @@ glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", versi
 ksp = { module = "com.google.devtools.ksp:symbol-processing", version.ref = "ksp" }
 ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 ksp-gradlePlugin = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
+# Services
+firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebase-analytics" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-config = { module = "com.google.firebase:firebase-config", version.ref = "firebase-config" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebase-crashlytics" }
+firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlytics-gradle" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging", version.ref = "firebase-messaging" }
+firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebase-auth"}
+firebase-firestore = { module = "com.google.firebase:firebase-firestore", version.ref = "firebase-firestore"}
+firebase-firestore-storage = { module = "com.google.firebase:firebase-firestore", version.ref = "firebase-firestore-storage"}
+gms-googleServices = { module = "com.google.gms:google-services", version.ref = "gms-googleServices" }
+firebase-ml-natural-language = { module = "com.google.firebase:firebase-ml-natural-language", version.ref ="firebase-ml-natural-language"}
+firebase-ml-natural-language-translate-model = { module = "com.google.firebase:firebase-ml-natural-language-translate-model", version.ref ="firebase-ml-natural-language-translate-model"}
+# Translate Kit
+mlkit-translate = { module = "com.google.mlkit:translate", version.ref = "mlkit"}
 
 [plugins]
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
@@ -112,3 +145,8 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize",  version.ref = "kotlinPlugin" }
+navigation-safeargs = { id = "androidx.navigation.safeargs", version.ref = "navigation" }
+navigation-safeargs-kotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
+
+firebase-crashlitycs = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-gradle"}
+gms-googleServices = { id = "com.google.gms.google-services", version.ref = "gms-googleServices"}
