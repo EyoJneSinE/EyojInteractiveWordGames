@@ -60,6 +60,6 @@ class UIWordCardProvider @Inject constructor() {
             UIWordCard(wordName = "tek"),
             UIWordCard(wordName = "kiraz")
         )
-        return wordList.shuffled()
+        return wordList
     }
 }
