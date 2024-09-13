@@ -7,6 +7,6 @@ class GetLearnedWordsUseCase @Inject constructor(
     private val wordCardRepository: WordCardRepository
 ) {
 
-    operator fun invoke() =
+    suspend operator fun invoke() =
         wordCardRepository.getLearnedWords()
 }

@@ -8,11 +8,19 @@ interface WordCardRepository {
 
     fun getWordCards(): Flow<Resource<List<UIWordCard>>>
 
-    fun saveWordCards(cards: List<UIWordCard>)
+    suspend fun saveWordCards(cards: List<UIWordCard>)
 
-    fun addWordCard(card: UIWordCard)
+    suspend fun addWordCard(card: UIWordCard)
 
-    fun updateWordCard(updatedCard: UIWordCard)
+    suspend fun updateWordCard(updateWordCard: UIWordCard)
 
     fun getLearnedWords(): Flow<Resource<List<UIWordCard>>>
+
+    fun getLearnedGermanWords(): Flow<Resource<List<UIWordCard>>>
+
+    fun getLearnableWords(): Flow<Resource<List<UIWordCard>>>
+
+    suspend fun updateGermanLearnedStatus(wordName: String, isGermanLearned: Boolean)
+
+    suspend fun updateEnglishLearnedStatus(wordName: String, isEnglishLearned: Boolean)
 }

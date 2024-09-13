@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/wordListFragment"
+        android:title="Learnable Word"
+        android:icon="@drawable/ic_learnable_words" />
+
+    <item android:id="@+id/learnedWordsFragment"
+        android:title="Learned Word"
+        android:icon="@drawable/ic_learned_words"/>
+
+    <item android:id="@+id/learnedGermanWordsFragment"
+        android:title="Learned German Word"
+        android:icon="@drawable/ic_learned_words"/>
+
+</menu>

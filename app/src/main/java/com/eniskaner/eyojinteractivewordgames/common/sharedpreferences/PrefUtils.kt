@@ -55,6 +55,6 @@ class PrefUtils @Inject constructor(@ApplicationContext private val context: Con
         val type = object : TypeToken<List<UIWordCard>>() {}.type
         val allCards: List<UIWordCard> = gson.fromJson(json, type)
 
-        return allCards.filter { it.isLearned }
+        return allCards.filter { it.isEnglishLearned }
     }
 }

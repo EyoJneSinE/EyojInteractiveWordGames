@@ -22,4 +22,38 @@
         android:name="com.eniskaner.eyojinteractivewordgames.translationpage.presentation.view.WordDetailFragment"
         android:label="fragment_word_detail"
         tools:layout="@layout/fragment_word_detail" />
+    <fragment
+        android:id="@+id/learnedWordsFragment"
+        android:name="com.eniskaner.eyojinteractivewordgames.translationpage.presentation.view.LearnedWordsFragment"
+        android:label="fragment_learned_words"
+        tools:layout="@layout/fragment_learned_words" >
+        <argument
+            android:name="uiWordCard"
+            app:argType="com.eniskaner.eyojinteractivewordgames.translationpage.data.model.UIWordCard" />
+        <action
+            android:id="@+id/action_learnedWordsFragment_to_learnedWordDetailsFragment"
+            app:destination="@id/learnedWordDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/learnedWordDetailsFragment"
+        android:name="com.eniskaner.eyojinteractivewordgames.translationpage.presentation.view.LearnedWordDetailsFragment"
+        android:label="fragment_learned_word_details"
+        tools:layout="@layout/fragment_learned_word_details" />
+    <fragment
+        android:id="@+id/learnedGermanWordsFragment"
+        android:name="com.eniskaner.eyojinteractivewordgames.translationpage.presentation.view.LearnedGermanWordsFragment"
+        android:label="fragment_learned_german_words"
+        tools:layout="@layout/fragment_learned_german_words" >
+        <action
+            android:id="@+id/action_learnedGermanWordsFragment_to_learnedGermanWordDetailFragment"
+            app:destination="@id/learnedGermanWordDetailFragment" />
+        <argument
+            android:name="uiWordCard"
+            app:argType="com.eniskaner.eyojinteractivewordgames.translationpage.data.model.UIWordCard" />
+    </fragment>
+    <fragment
+        android:id="@+id/learnedGermanWordDetailFragment"
+        android:name="com.eniskaner.eyojinteractivewordgames.translationpage.presentation.view.LearnedGermanWordDetailFragment"
+        android:label="fragment_learned_german_word_detail"
+        tools:layout="@layout/fragment_learned_german_word_detail" />
 </navigation>

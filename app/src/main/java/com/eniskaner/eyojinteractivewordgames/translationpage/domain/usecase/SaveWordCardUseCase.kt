@@ -8,6 +8,6 @@ class SaveWordCardUseCase @Inject constructor(
     private val wordCardRepository: WordCardRepository
 ) {
 
-    operator fun invoke(cards: List<UIWordCard>) =
+    suspend operator fun invoke(cards: List<UIWordCard>) =
         wordCardRepository.saveWordCards(cards = cards)
 }

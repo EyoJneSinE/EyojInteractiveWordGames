@@ -8,6 +8,6 @@ class UpdateWordCardUseCase @Inject constructor(
     private val wordCardRepository: WordCardRepository
 ) {
 
-    operator fun invoke(updatedCard: UIWordCard) =
-        wordCardRepository.updateWordCard(updatedCard = updatedCard)
+    suspend operator fun invoke(updateWordCard: UIWordCard) =
+        wordCardRepository.updateWordCard(updateWordCard = updateWordCard)
 }

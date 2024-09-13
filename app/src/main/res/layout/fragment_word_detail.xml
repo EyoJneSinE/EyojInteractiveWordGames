@@ -10,13 +10,26 @@
     android:paddingVertical="16dp"
     tools:context=".translationpage.presentation.view.WordDetailFragment">
 
+    <ImageView
+        android:id="@+id/button_english"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="64dp"
+        android:layout_marginStart="32dp"
+        android:src="@mipmap/ic_uk_flag"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.9"/>
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_word_back"
         style="@style/Widget.Material3.CardView.Elevated"
         app:cardCornerRadius="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_english"
         app:layout_constraintBottom_toTopOf="@+id/button_translate_english_front"
         app:cardBackgroundColor="@color/eyoj_secondary">
 
@@ -25,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginVertical="32dp"
+            android:layout_marginVertical="128dp"
             android:text="Çeviriliyor..."
             android:textSize="32sp"
             android:layout_marginHorizontal="16dp"
@@ -38,6 +51,27 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.9" />
 
+        <ImageView
+            android:id="@+id/button_turkish2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="48dp"
+            android:src="@mipmap/ic_turkish_flag"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switch_is_english_learned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="end|bottom"
+            android:text="Is English Learned"/>
+
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -48,9 +82,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="16dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_english"
         app:layout_constraintBottom_toTopOf="@+id/button_translate_english_front"
         app:cardBackgroundColor="@color/eyoj_secondary_container">
+
+        <ImageView
+            android:id="@+id/button_turkish"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="48dp"
+            android:src="@mipmap/ic_turkish_flag"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.9" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_word_front"
@@ -58,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="32dp"
+            android:layout_marginVertical="128dp"
             android:text=" 12314"
             android:textSize="32sp"
             android:textAlignment="center"
@@ -72,6 +119,19 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <ImageView
+        android:id="@+id/button_german"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="32dp"
+        android:src="@mipmap/ic_germany_flag"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button_translate_english_front"
+        app:layout_constraintWidth_percent="0.9" />
+
     <Button
         android:id="@+id/button_translate_english_front"
         android:layout_width="wrap_content"
@@ -80,10 +140,9 @@
         android:text="İngilizce çevirisi"
         app:cornerRadius="32dp"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="96dp"
         app:backgroundTint="@color/eyoj_inverse_primary"
         android:background="@drawable/button_gradient"
-        app:layout_constraintTop_toBottomOf="@+id/card_word_front"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>

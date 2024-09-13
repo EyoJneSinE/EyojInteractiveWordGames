@@ -4,5 +4,6 @@ import com.eniskaner.eyojinteractivewordgames.translationpage.data.model.UIWordC
 
 data class WordCardState(
     val wordCardsList: List<UIWordCard> = emptyList(),
-    val learnedEnglishCardList: List<UIWordCard> = emptyList()
+    val learnedEnglishCardList: List<UIWordCard> = emptyList(),
+    val learnedGermanCardList: List<UIWordCard> = emptyList()
 )

@@ -110,4 +110,8 @@ dependencies {
     implementation(libs.ksp.api)
     implementation(libs.ksp.gradlePlugin)
     implementation(libs.mlkit.translate)
+    //Room Database
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }

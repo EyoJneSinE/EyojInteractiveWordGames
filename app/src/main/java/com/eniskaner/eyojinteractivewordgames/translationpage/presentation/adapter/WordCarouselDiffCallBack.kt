@@ -8,7 +8,8 @@ class WordCarouselDiffCallBack: DiffUtil.ItemCallback<UIWordCard>() {
         oldItem: UIWordCard,
         newItem: UIWordCard
     ): Boolean = oldItem.wordName == newItem.wordName ||
-            oldItem.isLearned == newItem.isLearned
+            oldItem.isEnglishLearned == newItem.isEnglishLearned ||
+            oldItem.isGermanLearned == newItem.isGermanLearned
 
     override fun areContentsTheSame(
         oldItem: UIWordCard,

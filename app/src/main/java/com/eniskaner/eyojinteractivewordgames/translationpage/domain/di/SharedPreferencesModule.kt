@@ -2,6 +2,7 @@ package com.eniskaner.eyojinteractivewordgames.translationpage.domain.di
 
 import android.content.Context
 import com.eniskaner.eyojinteractivewordgames.common.sharedpreferences.PrefUtils
+import com.eniskaner.eyojinteractivewordgames.common.sharedpreferences.data.database.WordCardDao
 import com.eniskaner.eyojinteractivewordgames.translationpage.data.repo.WordCardRepositoryImpl
 import com.eniskaner.eyojinteractivewordgames.translationpage.domain.repo.WordCardRepository
 import dagger.Module
@@ -23,7 +24,7 @@ object SharedPreferencesModule {
 
     @Provides
     @Singleton
-    fun provideWordCardRepository(prefUtils: PrefUtils): WordCardRepository {
-        return WordCardRepositoryImpl(prefUtils = prefUtils)
+    fun provideWordCardRepository(wordCardDao: WordCardDao): WordCardRepository {
+        return WordCardRepositoryImpl(wordCardDao = wordCardDao)
     }
 }

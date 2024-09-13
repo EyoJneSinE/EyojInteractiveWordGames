@@ -8,6 +8,6 @@ class AddWordCardUseCase @Inject constructor(
     private val wordCardRepository: WordCardRepository
 ) {
 
-    operator fun invoke(card: UIWordCard) =
+    suspend operator fun invoke(card: UIWordCard) =
         wordCardRepository.addWordCard(card = card)
 }
