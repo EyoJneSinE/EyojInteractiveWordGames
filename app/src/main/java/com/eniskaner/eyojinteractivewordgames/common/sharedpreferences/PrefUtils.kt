@@ -2,6 +2,7 @@ package com.eniskaner.eyojinteractivewordgames.common.sharedpreferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.eniskaner.eyojinteractivewordgames.common.sharedpreferences.Constants.SAVED_LIST
 import com.eniskaner.eyojinteractivewordgames.common.sharedpreferences.Constants.WORD_CARDS_KEY
 import com.eniskaner.eyojinteractivewordgames.translationpage.data.model.UIWordCard
 import com.google.gson.Gson
@@ -10,7 +11,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class PrefUtils @Inject constructor(@ApplicationContext private val context: Context) {
-
 
 
     private fun getPrefs(): SharedPreferences {
@@ -32,6 +32,17 @@ class PrefUtils @Inject constructor(@ApplicationContext private val context: Con
         val gson = Gson()
         val json = gson.toJson(cards)
         editor.putString(WORD_CARDS_KEY, json).apply()
+    }
+
+    fun isSavedList(): Boolean {
+        val prefs = getPrefs()
+        return prefs.getBoolean(SAVED_LIST, false)
+    }
+
+    fun savedList(isSaved: Boolean) {
+        val prefs = getPrefs()
+        val editor = prefs.edit()
+        editor.putBoolean(SAVED_LIST, isSaved).apply()
     }
 
     fun addWordCard(card: UIWordCard) {

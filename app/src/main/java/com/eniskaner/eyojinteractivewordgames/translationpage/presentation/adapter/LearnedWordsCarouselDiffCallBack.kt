@@ -7,9 +7,7 @@ class LearnedWordsCarouselDiffCallBack: DiffUtil.ItemCallback<UIWordCard>() {
     override fun areItemsTheSame(
         oldItem: UIWordCard,
         newItem: UIWordCard
-    ): Boolean = oldItem.wordName == newItem.wordName ||
-            oldItem.isEnglishLearned == newItem.isEnglishLearned ||
-            oldItem.isGermanLearned == newItem.isGermanLearned
+    ): Boolean =  oldItem == newItem
 
     override fun areContentsTheSame(
         oldItem: UIWordCard,

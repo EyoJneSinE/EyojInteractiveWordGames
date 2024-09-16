@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.eniskaner.eyojinteractivewordgames.R
 import com.eniskaner.eyojinteractivewordgames.common.base.BaseFragment
+import com.eniskaner.eyojinteractivewordgames.common.sharedpreferences.PrefUtils
 import com.eniskaner.eyojinteractivewordgames.common.util.addCarouselEffect
 import com.eniskaner.eyojinteractivewordgames.common.util.launchAndRepeatWithViewLifecycle
 import com.eniskaner.eyojinteractivewordgames.databinding.FragmentWordListBinding
@@ -38,14 +39,26 @@ class WordListFragment : BaseFragment<FragmentWordListBinding>(), CarouselClickL
 
     @Inject
     lateinit var uiWordCardProvider: UIWordCardProvider
+
+    @Inject
+    lateinit var prefUtils: PrefUtils
     override fun setBinding(): FragmentWordListBinding =
         FragmentWordListBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        launchAndRepeatWithViewLifecycle {
-            setUpLanguageModels()
+
+        if (!prefUtils.isSavedList()) {
+            sharedWordCardViewModel.saveWordCards()
+            prefUtils.savedList(true)
         }
+
+        launchAndRepeatWithViewLifecycle {
+            launch {
+                sharedWordCardViewModel.getWordCards()
+            }
+        }
+
         initViewPager()
         getLearnableWords()
         binding.swipeRefreshLayoutWordList.setOnRefreshListener {
@@ -77,7 +90,7 @@ class WordListFragment : BaseFragment<FragmentWordListBinding>(), CarouselClickL
         launchAndRepeatWithViewLifecycle {
             launch {
                 sharedWordCardViewModel.wordCardListState.collect { wordCardState ->
-                    adapter.submitList(wordCardState.wordCardsList.filter { !it.isEnglishLearned && !it.isGermanLearned })
+                    adapter.submitList(wordCardState.wordCardsList.filter { !it.isEnglishLearned or !it.isGermanLearned })
                 }
             }
         }
@@ -92,42 +105,5 @@ class WordListFragment : BaseFragment<FragmentWordListBinding>(), CarouselClickL
             "uiWordCard" to item
         )
         navController.navigate(R.id.action_wordListFragment_to_wordDetailFragment, bundle)
-    }
-
-    private fun setUpLanguageModels() {
-        val options = TranslatorOptions.Builder()
-            .setSourceLanguage(TranslateLanguage.TURKISH)
-            .setTargetLanguage(TranslateLanguage.ENGLISH)
-            .build()
-
-        val turkEngTranslator = Translation.getClient(options)
-
-        var conditions = DownloadConditions.Builder()
-            .requireWifi()
-            .build()
-        turkEngTranslator.downloadModelIfNeeded(conditions)
-            .addOnSuccessListener {
-                isEnglishDownloaded = true
-            }
-            .addOnFailureListener {
-                isEnglishDownloaded = false
-            }
-        val options2 = TranslatorOptions.Builder()
-            .setSourceLanguage(TranslateLanguage.TURKISH)
-            .setTargetLanguage(TranslateLanguage.ENGLISH)
-            .build()
-
-        val turkGermanTranslator = Translation.getClient(options2)
-
-        var conditions2 = DownloadConditions.Builder()
-            .requireWifi()
-            .build()
-        turkGermanTranslator.downloadModelIfNeeded(conditions2)
-            .addOnSuccessListener {
-                isGermanDownloaded = true
-            }
-            .addOnFailureListener {
-                isGermanDownloaded = false
-            }
     }
 }

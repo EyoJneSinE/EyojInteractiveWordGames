@@ -18,6 +18,7 @@ import com.eniskaner.eyojinteractivewordgames.translationpage.data.model.UIWordC
 import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.adapter.CarouselClickListener
 import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.adapter.LearnedGermanAdapter
 import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.adapter.WordCarouselAdapter
+import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.viewmodel.LearnedViewModel
 import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.viewmodel.SharedWordCardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ class LearnedGermanWordsFragment : BaseFragment<FragmentLearnedGermanWordsBindin
 
     private val adapter by lazy { LearnedGermanAdapter(this@LearnedGermanWordsFragment) }
     private val navController: NavController by lazy { findNavController() }
-    private val sharedWordCardViewModel: SharedWordCardViewModel by viewModels()
+    private val learnedViewModel: LearnedViewModel by viewModels()
 
     override fun setBinding(): FragmentLearnedGermanWordsBinding =
         FragmentLearnedGermanWordsBinding.inflate(layoutInflater)
@@ -35,9 +36,9 @@ class LearnedGermanWordsFragment : BaseFragment<FragmentLearnedGermanWordsBindin
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewPager()
-        getLeanedGermanWords()
+        getLearnedGermanWords()
         binding.swipeRefreshLayoutLearnedGermanWords.setOnRefreshListener {
-            getGermanWordListData()
+            learnedViewModel.shuffleGermanWords()
             binding.swipeRefreshLayoutLearnedGermanWords.isRefreshing = false
         }
         getGermanWordListData()
@@ -48,10 +49,10 @@ class LearnedGermanWordsFragment : BaseFragment<FragmentLearnedGermanWordsBindin
         binding.viewPagerLearnedGermanWords.adapter = adapter
     }
 
-    private fun getLeanedGermanWords() {
+    private fun getLearnedGermanWords() {
         launchAndRepeatWithViewLifecycle {
             launch {
-                sharedWordCardViewModel.getLearnedGermanWords()
+                learnedViewModel.getLearnedGermanWords()
             }
         }
     }
@@ -59,16 +60,11 @@ class LearnedGermanWordsFragment : BaseFragment<FragmentLearnedGermanWordsBindin
     private fun getGermanWordListData() {
         launchAndRepeatWithViewLifecycle {
             launch {
-                sharedWordCardViewModel.wordCardListState.collect { wordCardState ->
-                    adapter.submitList(wordCardState.learnedEnglishCardList.filter { it.isGermanLearned })
+                learnedViewModel.wordCardListState.collect { wordCardState ->
+                    adapter.submitList(wordCardState.learnedGermanCardList)
                 }
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        getLeanedGermanWords()
     }
 
 

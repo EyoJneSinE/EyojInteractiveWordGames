@@ -18,6 +18,7 @@ import com.eniskaner.eyojinteractivewordgames.translationpage.data.model.UIWordC
 import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.adapter.CarouselClickListener
 import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.adapter.LearnedWordsCarouselAdapter
 import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.adapter.WordCarouselAdapter
+import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.viewmodel.LearnedViewModel
 import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.viewmodel.SharedWordCardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -27,17 +28,23 @@ class LearnedWordsFragment : BaseFragment<FragmentLearnedWordsBinding>(), Carous
 
     private val adapter by lazy { LearnedWordsCarouselAdapter(this@LearnedWordsFragment) }
     private val navController: NavController by lazy { findNavController() }
-    private val sharedWordCardViewModel: SharedWordCardViewModel by viewModels()
+    private val learnedViewModel: LearnedViewModel by viewModels()
 
     override fun setBinding(): FragmentLearnedWordsBinding =
         FragmentLearnedWordsBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        launchAndRepeatWithViewLifecycle {
+            launch {
+                learnedViewModel.getLearnedEnglishWords()
+            }
+        }
         initViewPager()
-        getLeanedEnglishWords()
         binding.swipeRefreshLayoutLearnedWords.setOnRefreshListener {
-            getWordListData()
+            learnedViewModel.shuffleEnglishWords()
             binding.swipeRefreshLayoutLearnedWords.isRefreshing = false
         }
         getWordListData()
@@ -48,27 +55,15 @@ class LearnedWordsFragment : BaseFragment<FragmentLearnedWordsBinding>(), Carous
         binding.viewPagerLearnedWords.adapter = adapter
     }
 
-    private fun getLeanedEnglishWords() {
-        launchAndRepeatWithViewLifecycle {
-            launch {
-                sharedWordCardViewModel.getLearnedEnglishWords()
-            }
-        }
-    }
 
     private fun getWordListData() {
         launchAndRepeatWithViewLifecycle {
             launch {
-                sharedWordCardViewModel.wordCardListState.collect { wordCardState ->
-                    adapter.submitList(wordCardState.learnedEnglishCardList.filter { it.isEnglishLearned })
+                learnedViewModel.wordCardListState.collect { wordCardState ->
+                    adapter.submitList(wordCardState.learnedEnglishCardList)
                 }
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        getLeanedEnglishWords()
     }
 
     override fun wordCardClickListener(item: UIWordCard) {

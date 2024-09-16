@@ -2,4 +2,13 @@
     <string name="app_name">EyojInteractiveWordGames</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select_flag">Çeviri için bayrak seç</string>
+    <string name="english_translation">İngilizce Çeviri için</string>
+    <string name="german_translation">Almanca Çeviri için</string>
+    <string name="is_english_learned">is English Learned</string>
+    <string name="is_german_learned">is German Learned</string>
+    <string name="button_text_turkish">Türkçe Çevirisi</string>
+    <string name="button_text_german">Almanca Çevirisi</string>
+    <string name="button_text_english">İngilizce Çevirisi</string>
+    <string name="translation_error">Model Is Not Downloaded</string>
 </resources>

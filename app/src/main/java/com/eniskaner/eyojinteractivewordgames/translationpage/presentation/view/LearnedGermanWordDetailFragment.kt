@@ -13,6 +13,8 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import com.eniskaner.eyojinteractivewordgames.R
 import com.eniskaner.eyojinteractivewordgames.common.base.BaseFragment
+import com.eniskaner.eyojinteractivewordgames.common.translator.TranslateManager
+import com.eniskaner.eyojinteractivewordgames.common.util.flipCardWithSetup
 import com.eniskaner.eyojinteractivewordgames.common.util.launchAndRepeatWithViewLifecycle
 import com.eniskaner.eyojinteractivewordgames.databinding.FragmentLearnedGermanWordDetailBinding
 import com.eniskaner.eyojinteractivewordgames.translationpage.data.model.UIWordCard
@@ -23,6 +25,7 @@ import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LearnedGermanWordDetailFragment : BaseFragment<FragmentLearnedGermanWordDetailBinding>() {
@@ -34,6 +37,9 @@ class LearnedGermanWordDetailFragment : BaseFragment<FragmentLearnedGermanWordDe
     var isDownloaded: Boolean = false
     var isGerman: Boolean = true
 
+    @Inject
+    lateinit var translateManager: TranslateManager
+
     override fun setBinding(): FragmentLearnedGermanWordDetailBinding =
         FragmentLearnedGermanWordDetailBinding.inflate(layoutInflater)
 
@@ -41,95 +47,93 @@ class LearnedGermanWordDetailFragment : BaseFragment<FragmentLearnedGermanWordDe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val options = TranslatorOptions.Builder()
-            .setSourceLanguage(TranslateLanguage.TURKISH)
-            .setTargetLanguage(TranslateLanguage.ENGLISH)
-            .build()
+        val uiWordCard: UIWordCard? = arguments?.getParcelable("uiWordCard", UIWordCard::class.java)
 
-        launchAndRepeatWithViewLifecycle {
-            launch {
-                val turkEngTranslator = Translation.getClient(options)
-
-                var conditions = DownloadConditions.Builder()
-                    .requireWifi()
-                    .build()
-                turkEngTranslator.downloadModelIfNeeded(conditions)
-                    .addOnSuccessListener {
-                        isDownloaded = true
-                    }
-                    .addOnFailureListener {
-                        isDownloaded = false
-                    }
-                val uiWordCard: UIWordCard? =
-                    arguments?.getParcelable("uiWordCard", UIWordCard::class.java)
-                uiWordCard?.let {
-                    getLearnedWordDetailData(it)
-                    binding.switchIsGermanLearned.isChecked = uiWordCard.isEnglishLearned
-                    binding.switchIsGermanLearned.setOnCheckedChangeListener { _, isChecked ->
+        uiWordCard?.let { wordCard ->
+            getLearnedWordDetailData(item = wordCard)
+            binding.buttonTranslateGermanFront.text = getString(R.string.button_text_german)
+            binding.buttonTranslateGermanFront.setOnClickListener {
+                handleLanguageChange(
+                    uiWordCard = wordCard,
+                    isLearnedChecked = wordCard.isGermanLearned,
+                    sourceLanguage = TranslateLanguage.TURKISH,
+                    targetLanguage = TranslateLanguage.GERMAN,
+                    buttonTextFront = getString(R.string.button_text_turkish),
+                    buttonTextBack = getString(R.string.button_text_german),
+                    isLanguageSelected = false,
+                    onLearnedToggle = { isLearned ->
                         sharedWordCardViewModel.updateWordCard(
-                            updatedCard = uiWordCard,
-                            isEnglishLearned = isChecked,
-                            isGermanLearned = false
+                            updatedCard = wordCard,
+                            isEnglishLearned = wordCard.isEnglishLearned,
+                            isGermanLearned = isLearned
                         )
                     }
-                }
-                val scale: Float = requireContext().resources.displayMetrics.density
-
-                binding.cardWordGermanFront.cameraDistance = 14000f * scale
-                binding.cardWordGermanBack.cameraDistance = 14000f * scale
-
-                front_anim = AnimatorInflater.loadAnimator(
-                    requireContext(),
-                    R.animator.front_animator
-                ) as AnimatorSet
-                back_anim = AnimatorInflater.loadAnimator(
-                    requireContext(),
-                    R.animator.back_animator
-                ) as AnimatorSet
-
-                binding.buttonTranslateGermanFront.setOnClickListener {
-                    if (isGerman) {
-                        binding.buttonTranslateGermanFront.text = "Türkçe Çevirisi"
-                        isGerman = false
-                    } else {
-                        binding.buttonTranslateGermanFront.text = "İngilizce Çevirisi"
-                        isGerman = true
-                    }
-                    if (isFront) {
-                        front_anim.setTarget(binding.cardWordGermanFront)
-                        back_anim.setTarget(binding.cardWordGermanBack)
-                        uiWordCard?.let {
-                            if (isDownloaded) {
-                                turkEngTranslator.translate(uiWordCard.wordName)
-                                    .addOnSuccessListener { traslatedString ->
-                                        binding.textGermanWordBack.text = traslatedString
-
-                                    }
-                                    .addOnFailureListener { exception ->
-                                    }
-                            } else {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "model is not downloaded",
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
-                            }
-                        }
-                        front_anim.start()
-                        back_anim.start()
-                        isFront = false
-                    } else {
-                        front_anim.setTarget(binding.cardWordGermanBack)
-                        back_anim.setTarget(binding.cardWordGermanFront)
-                        front_anim.start()
-                        back_anim.start()
-                        isFront = true
-                    }
-                }
+                )
             }
         }
     }
+
+    private fun handleLanguageChange(
+        uiWordCard: UIWordCard,
+        isLearnedChecked: Boolean,
+        sourceLanguage: String,
+        targetLanguage: String,
+        isLanguageSelected: Boolean,
+        onLearnedToggle: (Boolean) -> Unit,
+        buttonTextFront: String,
+        buttonTextBack: String
+    ) {
+        binding.buttonTranslateGermanFront.text = buttonTextBack
+        setupTranslationAndAnimation(
+            uiWordCard = uiWordCard,
+            sourceLanguage = sourceLanguage,
+            targetLanguage = targetLanguage,
+            buttonTextFront = buttonTextFront,
+            buttonTextBack = buttonTextBack
+        )
+        binding.switchIsGermanLearned.text =
+            if (isLanguageSelected) getString(R.string.is_english_learned) else getString(R.string.is_german_learned)
+        binding.switchIsGermanLearned.isChecked = isLearnedChecked
+        binding.switchIsGermanLearned.setOnClickListener {
+            onLearnedToggle(!isLearnedChecked)
+        }
+    }
+
+    private fun setupTranslationAndAnimation(
+        uiWordCard: UIWordCard,
+        sourceLanguage: String,
+        targetLanguage: String,
+        buttonTextFront: String,
+        buttonTextBack: String
+    ) {
+        binding.buttonTranslateGermanFront.text =
+            if (isFront) buttonTextFront else buttonTextBack
+
+        isFront = binding.cardWordGermanFront.flipCardWithSetup(
+            frontView = binding.cardWordGermanFront,
+            backView = binding.cardWordGermanBack,
+            context = requireContext(),
+            isFront = isFront,
+            onFrontFlipAction = {
+                translateManager.translate(
+                    word = uiWordCard.wordName,
+                    sourceLanguage = sourceLanguage,
+                    targetLanguage = targetLanguage,
+                    onTranslateSuccess = { translatedString ->
+                        binding.textGermanWordBack.text = translatedString
+                    },
+                    onTranslateFail = {
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.translation_error),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                )
+            }
+        )
+    }
+
 
     private fun getLearnedWordDetailData(item: UIWordCard) = with(binding) {
         textWordGermanFront.text = item.wordName

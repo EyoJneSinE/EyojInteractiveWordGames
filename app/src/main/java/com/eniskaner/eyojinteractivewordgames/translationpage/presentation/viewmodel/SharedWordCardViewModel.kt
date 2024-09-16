@@ -55,25 +55,12 @@ class SharedWordCardViewModel @Inject constructor(
     private var jobGetLearnableEnglishWords: Job? = null
     private var jobGetLearnedGermanWords: Job? = null
 
-    init {
-        saveWordCards()
-        getWordCards()
-        viewModelScope.launch {
-            getLearnableWords()
-            getLearnedEnglishWords()
-            getLearnedGermanWords()
-        }
-    }
-
-    private fun getWordCards() {
+    fun getWordCards() {
         jobGetWords?.cancel()
         jobGetWords = getWordCardsUseCase.invoke().onEach { resource ->
             when (resource) {
                 is Resource.Success -> {
                     _wordCardListState.update { state ->
-                        getLearnableWords()
-                        getLearnedEnglishWords()
-                        getLearnedGermanWords()
                         state.copy(
                             wordCardsList = resource.data ?: emptyList()
                         )
@@ -86,7 +73,7 @@ class SharedWordCardViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun saveWordCards() {
+    fun saveWordCards() {
         viewModelScope.launch {
             if (_wordCardListState.value.wordCardsList.isEmpty()) {
                 saveWordCardUseCase.invoke(uiWordCardProvider.addWords())
@@ -116,16 +103,9 @@ class SharedWordCardViewModel @Inject constructor(
                 updateWordCardUseCase.invoke(
                     updateWordCard = updatedCard.copy(
                         wordName = updatedCard.wordName,
-                        isEnglishLearned = isEnglishLearned
+                        isEnglishLearned = isEnglishLearned,
+                        isGermanLearned = isGermanLearned
                     )
-                )
-                updateEnglishLearnedStatusUseCase.invoke(
-                    wordName = updatedCard.wordName,
-                    isEnglishLearned = isEnglishLearned
-                )
-                updateGermanLearnedStatusUseCase.invoke(
-                    wordName = updatedCard.wordName,
-                    isGermanLearned = isGermanLearned
                 )
                 _wordCardListState.update { state ->
                     val updatedWordCardsList = state.wordCardsList.map { card ->
@@ -138,19 +118,12 @@ class SharedWordCardViewModel @Inject constructor(
                             card
                         }
                     }
-                    saveWordCardUseCase.invoke(cards = updatedWordCardsList)
-                    getLearnableWords()
-                    getLearnedEnglishWords()
-                    getLearnedGermanWords()
                     state.copy(
                         wordCardsList = updatedWordCardsList,
                         learnedEnglishCardList = updatedWordCardsList.filter { it.isEnglishLearned },
                         learnedGermanCardList = updatedWordCardsList.filter { it.isGermanLearned }
                     )
                 }
-                getLearnableWords()
-                getLearnedEnglishWords()
-                getLearnedGermanWords()
             }
         }
     }
