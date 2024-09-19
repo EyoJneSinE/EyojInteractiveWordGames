@@ -13,7 +13,9 @@ import com.eniskaner.eyojinteractivewordgames.R
 import com.eniskaner.eyojinteractivewordgames.common.base.BaseFragment
 import com.eniskaner.eyojinteractivewordgames.common.util.addCarouselEffect
 import com.eniskaner.eyojinteractivewordgames.common.util.launchAndRepeatWithViewLifecycle
+import com.eniskaner.eyojinteractivewordgames.common.util.viewBinding
 import com.eniskaner.eyojinteractivewordgames.databinding.FragmentLearnedWordsBinding
+import com.eniskaner.eyojinteractivewordgames.databinding.FragmentWordDetailBinding
 import com.eniskaner.eyojinteractivewordgames.translationpage.data.model.UIWordCard
 import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.adapter.CarouselClickListener
 import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.adapter.LearnedWordsCarouselAdapter
@@ -24,37 +26,41 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LearnedWordsFragment : BaseFragment<FragmentLearnedWordsBinding>(), CarouselClickListener {
+class LearnedWordsFragment : Fragment(), CarouselClickListener {
 
+    private val binding by viewBinding(FragmentLearnedWordsBinding::bind)
     private val adapter by lazy { LearnedWordsCarouselAdapter(this@LearnedWordsFragment) }
     private val navController: NavController by lazy { findNavController() }
     private val learnedViewModel: LearnedViewModel by viewModels()
 
-    override fun setBinding(): FragmentLearnedWordsBinding =
-        FragmentLearnedWordsBinding.inflate(layoutInflater)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        getLearnedEnglishWord()
+        initViewPager()
+        getShuffleLearnedEnglishWords()
+        getWordListData()
+    }
 
+    private fun initViewPager() = with(binding) {
+        viewPagerLearnedWords.addCarouselEffect()
+        viewPagerLearnedWords.adapter = adapter
+    }
+
+    private fun getShuffleLearnedEnglishWords() = with(binding) {
+        swipeRefreshLayoutLearnedWords.setOnRefreshListener {
+            learnedViewModel.shuffleEnglishWords()
+            swipeRefreshLayoutLearnedWords.isRefreshing = false
+        }
+    }
+
+    private fun getLearnedEnglishWord() {
         launchAndRepeatWithViewLifecycle {
             launch {
                 learnedViewModel.getLearnedEnglishWords()
             }
         }
-        initViewPager()
-        binding.swipeRefreshLayoutLearnedWords.setOnRefreshListener {
-            learnedViewModel.shuffleEnglishWords()
-            binding.swipeRefreshLayoutLearnedWords.isRefreshing = false
-        }
-        getWordListData()
     }
-
-    private fun initViewPager() {
-        binding.viewPagerLearnedWords.addCarouselEffect()
-        binding.viewPagerLearnedWords.adapter = adapter
-    }
-
 
     private fun getWordListData() {
         launchAndRepeatWithViewLifecycle {
@@ -74,7 +80,10 @@ class LearnedWordsFragment : BaseFragment<FragmentLearnedWordsBinding>(), Carous
         val bundle = bundleOf(
             "uiWordCard" to item
         )
-        navController.navigate(R.id.action_learnedWordsFragment_to_learnedWordDetailsFragment, bundle)
+        navController.navigate(
+            R.id.action_learnedWordsFragment_to_learnedWordDetailsFragment,
+            bundle
+        )
     }
 
 }
