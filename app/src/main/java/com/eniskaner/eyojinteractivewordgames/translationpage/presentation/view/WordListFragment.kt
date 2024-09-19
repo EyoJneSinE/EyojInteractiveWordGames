@@ -14,6 +14,7 @@ import com.eniskaner.eyojinteractivewordgames.common.base.BaseFragment
 import com.eniskaner.eyojinteractivewordgames.common.sharedpreferences.PrefUtils
 import com.eniskaner.eyojinteractivewordgames.common.util.addCarouselEffect
 import com.eniskaner.eyojinteractivewordgames.common.util.launchAndRepeatWithViewLifecycle
+import com.eniskaner.eyojinteractivewordgames.common.util.viewBinding
 import com.eniskaner.eyojinteractivewordgames.databinding.FragmentWordListBinding
 import com.eniskaner.eyojinteractivewordgames.translationpage.data.model.UIWordCard
 import com.eniskaner.eyojinteractivewordgames.translationpage.data.model.UIWordCardProvider
@@ -29,21 +30,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class WordListFragment : BaseFragment<FragmentWordListBinding>(), CarouselClickListener {
+class WordListFragment : Fragment(), CarouselClickListener {
 
+    private val binding by viewBinding(FragmentWordListBinding::bind)
     private val adapter by lazy { WordCarouselAdapter(this@WordListFragment) }
     private val navController: NavController by lazy { findNavController() }
     private val sharedWordCardViewModel: SharedWordCardViewModel by viewModels()
-    private var isEnglishDownloaded: Boolean = false
-    private var isGermanDownloaded: Boolean = false
 
     @Inject
     lateinit var uiWordCardProvider: UIWordCardProvider
 
     @Inject
     lateinit var prefUtils: PrefUtils
-    override fun setBinding(): FragmentWordListBinding =
-        FragmentWordListBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,30 +51,41 @@ class WordListFragment : BaseFragment<FragmentWordListBinding>(), CarouselClickL
             prefUtils.savedList(true)
         }
 
+        getInitialWordList()
+        initViewPager()
+        getLearnableWords()
+        swiperRefreshToWordList()
+        getWordListData()
+    }
+
+    private fun initViewPager() {
+        with(binding) {
+            viewPagerWordList.addCarouselEffect()
+            viewPagerWordList.adapter = adapter
+        }
+    }
+
+    private fun getInitialWordList() {
         launchAndRepeatWithViewLifecycle {
             launch {
                 sharedWordCardViewModel.getWordCards()
             }
         }
-
-        initViewPager()
-        getLearnableWords()
-        binding.swipeRefreshLayoutWordList.setOnRefreshListener {
-            sharedWordCardViewModel.shuffleWords()
-            binding.swipeRefreshLayoutWordList.isRefreshing = false
-        }
-        getWordListData()
-    }
-
-    private fun initViewPager() {
-        binding.viewPagerWordList.addCarouselEffect()
-        binding.viewPagerWordList.adapter = adapter
     }
 
     private fun getLearnableWords() {
         launchAndRepeatWithViewLifecycle {
             launch {
                 sharedWordCardViewModel.getLearnableWords()
+            }
+        }
+    }
+
+    private fun swiperRefreshToWordList() {
+        with(binding) {
+            swipeRefreshLayoutWordList.setOnRefreshListener {
+                sharedWordCardViewModel.shuffleWords()
+                swipeRefreshLayoutWordList.isRefreshing = false
             }
         }
     }
