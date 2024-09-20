@@ -1,4 +1,4 @@
-package com.eniskaner.eyojinteractivewordgames.translator.presentation
+package com.eniskaner.eyojinteractivewordgames.translator.presentation.state
 
 import com.eniskaner.eyojinteractivewordgames.translator.data.model.LanguageModel
 

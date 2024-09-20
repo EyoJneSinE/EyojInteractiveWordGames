@@ -1,9 +1,8 @@
 package com.eniskaner.eyojinteractivewordgames.translator.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.state.WordCardState
 import com.eniskaner.eyojinteractivewordgames.translator.domain.usecase.GetLanguageCodeUseCase
-import com.eniskaner.eyojinteractivewordgames.translator.presentation.LanguageCodeState
+import com.eniskaner.eyojinteractivewordgames.translator.presentation.state.LanguageCodeState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -21,6 +20,5 @@ class LanguageViewModel @Inject constructor(
         _languageCodeState.update {
             it.copy(languageCodes = languageCodeList)
         }
-
     }
 }
