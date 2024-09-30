@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class WordListFragment : Fragment(), CarouselClickListener {
+class WordListFragment : Fragment(R.layout.fragment_word_list), CarouselClickListener {
 
     private val binding by viewBinding(FragmentWordListBinding::bind)
     private val adapter by lazy { WordCarouselAdapter(this@WordListFragment) }
