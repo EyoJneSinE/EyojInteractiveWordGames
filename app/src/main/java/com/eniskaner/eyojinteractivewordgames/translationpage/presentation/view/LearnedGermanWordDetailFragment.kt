@@ -16,7 +16,9 @@ import com.eniskaner.eyojinteractivewordgames.common.base.BaseFragment
 import com.eniskaner.eyojinteractivewordgames.common.translator.TranslateManager
 import com.eniskaner.eyojinteractivewordgames.common.util.flipCardWithSetup
 import com.eniskaner.eyojinteractivewordgames.common.util.launchAndRepeatWithViewLifecycle
+import com.eniskaner.eyojinteractivewordgames.common.util.viewBinding
 import com.eniskaner.eyojinteractivewordgames.databinding.FragmentLearnedGermanWordDetailBinding
+import com.eniskaner.eyojinteractivewordgames.databinding.FragmentLearnedGermanWordsBinding
 import com.eniskaner.eyojinteractivewordgames.translationpage.data.model.UIWordCard
 import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.viewmodel.SharedWordCardViewModel
 import com.google.mlkit.common.model.DownloadConditions
@@ -28,20 +30,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LearnedGermanWordDetailFragment : BaseFragment<FragmentLearnedGermanWordDetailBinding>() {
+class LearnedGermanWordDetailFragment : Fragment(R.layout.fragment_learned_german_word_detail) {
 
+    private val binding by viewBinding(FragmentLearnedGermanWordDetailBinding::bind)
     private val sharedWordCardViewModel: SharedWordCardViewModel by viewModels()
-    private lateinit var back_anim: AnimatorSet
-    private lateinit var front_anim: AnimatorSet
     var isFront = true
-    var isDownloaded: Boolean = false
-    var isGerman: Boolean = true
 
     @Inject
     lateinit var translateManager: TranslateManager
-
-    override fun setBinding(): FragmentLearnedGermanWordDetailBinding =
-        FragmentLearnedGermanWordDetailBinding.inflate(layoutInflater)
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

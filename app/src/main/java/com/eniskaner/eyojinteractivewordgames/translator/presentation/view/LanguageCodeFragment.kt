@@ -19,9 +19,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LanguageCodeFragment : Fragment(), LanguageClickListener {
+class LanguageCodeFragment : Fragment(R.layout.fragment_language_code), LanguageClickListener {
 
-    private val binding by viewBinding(FragmentLanguageCodeBinding::bind)
+    private val binding: FragmentLanguageCodeBinding by viewBinding(FragmentLanguageCodeBinding::bind)
     private val viewModel: LanguageViewModel by viewModels()
     private val adapter by lazy { LanguageCodeAdapter(this@LanguageCodeFragment) }
 

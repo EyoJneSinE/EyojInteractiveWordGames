@@ -13,7 +13,9 @@ import com.eniskaner.eyojinteractivewordgames.R
 import com.eniskaner.eyojinteractivewordgames.common.base.BaseFragment
 import com.eniskaner.eyojinteractivewordgames.common.util.addCarouselEffect
 import com.eniskaner.eyojinteractivewordgames.common.util.launchAndRepeatWithViewLifecycle
+import com.eniskaner.eyojinteractivewordgames.common.util.viewBinding
 import com.eniskaner.eyojinteractivewordgames.databinding.FragmentLearnedGermanWordsBinding
+import com.eniskaner.eyojinteractivewordgames.databinding.FragmentLearnedWordDetailsBinding
 import com.eniskaner.eyojinteractivewordgames.translationpage.data.model.UIWordCard
 import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.adapter.CarouselClickListener
 import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.adapter.LearnedGermanAdapter
@@ -24,14 +26,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LearnedGermanWordsFragment : BaseFragment<FragmentLearnedGermanWordsBinding>(), CarouselClickListener {
+class LearnedGermanWordsFragment : Fragment(R.layout.fragment_learned_german_words), CarouselClickListener {
 
+    private val binding by viewBinding(FragmentLearnedGermanWordsBinding::bind)
     private val adapter by lazy { LearnedGermanAdapter(this@LearnedGermanWordsFragment) }
     private val navController: NavController by lazy { findNavController() }
     private val learnedViewModel: LearnedViewModel by viewModels()
-
-    override fun setBinding(): FragmentLearnedGermanWordsBinding =
-        FragmentLearnedGermanWordsBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

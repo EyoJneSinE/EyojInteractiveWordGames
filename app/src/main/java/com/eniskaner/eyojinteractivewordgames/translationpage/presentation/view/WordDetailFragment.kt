@@ -23,9 +23,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class WordDetailFragment : Fragment() {
+class WordDetailFragment : Fragment(R.layout.fragment_word_detail) {
 
-    private val binding by viewBinding(FragmentWordDetailBinding::bind)
+    private val binding: FragmentWordDetailBinding by viewBinding(FragmentWordDetailBinding::bind)
     private val sharedWordCardViewModel: SharedWordCardViewModel by viewModels()
     private var isFront = true
 

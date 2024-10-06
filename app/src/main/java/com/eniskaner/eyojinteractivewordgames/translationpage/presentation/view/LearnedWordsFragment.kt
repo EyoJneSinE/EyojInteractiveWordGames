@@ -26,9 +26,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LearnedWordsFragment : Fragment(), CarouselClickListener {
+class LearnedWordsFragment : Fragment(R.layout.fragment_learned_words), CarouselClickListener {
 
-    private val binding by viewBinding(FragmentLearnedWordsBinding::bind)
+    private val binding: FragmentLearnedWordsBinding by viewBinding(FragmentLearnedWordsBinding::bind)
     private val adapter by lazy { LearnedWordsCarouselAdapter(this@LearnedWordsFragment) }
     private val navController: NavController by lazy { findNavController() }
     private val learnedViewModel: LearnedViewModel by viewModels()

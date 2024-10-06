@@ -16,6 +16,7 @@ import com.eniskaner.eyojinteractivewordgames.common.base.BaseFragment
 import com.eniskaner.eyojinteractivewordgames.common.translator.TranslateManager
 import com.eniskaner.eyojinteractivewordgames.common.util.flipCardWithSetup
 import com.eniskaner.eyojinteractivewordgames.common.util.launchAndRepeatWithViewLifecycle
+import com.eniskaner.eyojinteractivewordgames.common.util.viewBinding
 import com.eniskaner.eyojinteractivewordgames.databinding.FragmentLearnedWordDetailsBinding
 import com.eniskaner.eyojinteractivewordgames.translationpage.data.model.UIWordCard
 import com.eniskaner.eyojinteractivewordgames.translationpage.presentation.viewmodel.SharedWordCardViewModel
@@ -28,16 +29,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LearnedWordDetailsFragment : BaseFragment<FragmentLearnedWordDetailsBinding>() {
+class LearnedWordDetailsFragment : Fragment(R.layout.fragment_learned_word_details) {
+
+    private val binding by viewBinding(FragmentLearnedWordDetailsBinding::bind)
 
     private val sharedWordCardViewModel: SharedWordCardViewModel by viewModels()
     private var isFront = true
 
     @Inject
     lateinit var translateManager: TranslateManager
-
-    override fun setBinding(): FragmentLearnedWordDetailsBinding =
-        FragmentLearnedWordDetailsBinding.inflate(layoutInflater)
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
